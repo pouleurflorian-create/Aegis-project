@@ -1,0 +1,599 @@
+/* ============================================================
+   AEGIS — style.css  v3.0
+   Standard : BEM + SOLID CSS | Mobile-first
+   Breakpoints : mobile (base) → 768px → 1280px
+   ============================================================
+
+   TABLE
+   1.  Reset
+   2.  Variables (Design System)
+   3.  Animations & accessibilité
+   4.  Base (html, body)
+   5.  Header & Navbar
+   6.  Main
+   7.  Hero
+   8.  CTA
+   9.  Boutons
+   10. Promo
+   11. Footer
+   12. Media Queries
+   ============================================================ */
+
+
+/* == 1. RESET ==================================================
+   Retire les marges/paddings par défaut de tous les éléments
+   et adopte un calcul de taille plus prévisible (border-box :
+   le padding est inclus dans la largeur, pas en plus).
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin:  0;
+  padding: 0;
+}
+
+
+/* == 2. VARIABLES ============================================
+   C'est le "design system" : toutes les couleurs, polices,
+   rayons et ombres sont centralisés ici. Modifier une variable
+   met à jour toute la page instantanément.
+   ============================================================ */
+:root {
+  /* Couleurs */
+  --clr-purple:  #a855f7;   /* violet accent — hover, focus, icones */
+  --clr-white:   #ffffff;
+  --clr-text:    #e2d9f3;   /* texte principal (clair sur fond sombre) */
+  --clr-muted:   #9d8fc0;   /* texte secondaire (attenué) */
+
+  /* Dégradés — chaque bloc a le sien pour la cohérence visuelle */
+  --grad-header:      linear-gradient(to bottom, #201070, #103EA0);
+  --grad-footer:      linear-gradient(to bottom, rgba(31,18,114,.92), rgba(16,60,158,.92));
+  --grad-promo:       linear-gradient(to bottom, #210E6E, #1041A3);
+  --grad-btn-primary: linear-gradient(to bottom, rgba(36,109,224,.92), rgba(13,36,113,1));
+  --grad-btn-second:  linear-gradient(to bottom, #0F2C7D, #1F5BC2);
+
+  /* Polices */
+  --font-body:    'Inter', sans-serif;       /* corps de texte */
+  --font-display: 'Montserrat', sans-serif;  /* titres et logo */
+  --font-ui:      'Lato', sans-serif;        /* boutons et badges */
+
+  /* Coins arrondis */
+  --radius-card: clamp(14px, 3vw, 20px);  /* cartes hero et promo */
+  --radius-pill: 99px;                     /* boutons arrondis */
+
+  /* Ombres portées */
+  --shadow-card: 0 16px 48px rgba(8,4,24,.55), inset 0 1px 0 rgba(255,255,255,.15);
+  --shadow-btn:  0 6px 28px rgba(80,110,255,.40);
+
+  /* Durées de transition pour les hovers et focus */
+  --t-fast: 0.15s ease;
+  --t-base: 0.20s ease;
+}
+
+
+/* == 3. ANIMATIONS & ACCESSIBILITÉ ===========================
+   3 animations de contenu + 1 micro-interaction burger.
+   La règle prefers-reduced-motion désactive tout pour les
+   utilisateurs qui ont activé "Réduire les animations" dans
+   les paramètres de leur appareil (WCAG 2.1 — critère 2.3.3).
+   ============================================================ */
+
+/* Animation 1 : apparition en glissant depuis le bas */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animation 2 : lévitation douce de l'illustration SVG */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+
+/* Animation 3 : pulsation lumineuse du bouton CTA */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: var(--shadow-btn); }
+  50%       { box-shadow: 0 8px 36px rgba(80,110,255,.72), 0 0 60px rgba(80,110,255,.32); }
+}
+
+/* Micro-interaction burger : la ligne du milieu rétrécit au survol */
+@keyframes burger-squeeze {
+  0%   { transform: scaleX(1); }
+  50%  { transform: scaleX(0.65); }
+  100% { transform: scaleX(1); }
+}
+
+/* Désactive toutes les animations si l'utilisateur le demande */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+  }
+}
+
+
+/* == 4. BASE ==================================================
+   Sur mobile, la page occupe exactement l'écran — pas de scroll.
+   Les trois blocs (header | main | footer) s'empilent grâce à
+   flexbox en colonne, et se partagent toute la hauteur.
+   ============================================================ */
+html {
+  height:   100%;
+  overflow: hidden; /* pas de scroll sur mobile */
+}
+
+body {
+  height:          100%;
+  overflow:        hidden;
+  display:         flex;
+  flex-direction:  column; /* empile header → main → footer */
+
+  /* Image de fond qui couvre tout l'écran + voile sombre pour la lisibilité */
+  background:
+    linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.28)),
+    url('/image/FOND\ 2.png') no-repeat center center / cover;
+
+  font-family: var(--font-body);
+  color:       var(--clr-text);
+}
+
+
+/* == 5. HEADER & NAVBAR ======================================
+   Le dégradé est sur .header (qui fait 100% de largeur)
+   pour que le fond couvre bien tout le haut de la page.
+   .navbar à l'intérieur gère l'alignement des éléments.
+   ============================================================ */
+.header {
+  flex-shrink: 0;           /* ne se comprime pas quand la place manque */
+  width:       100%;
+  background:  var(--grad-header);
+  border-bottom: 1px solid rgba(120,80,220,.22);
+  position: relative;
+  z-index:  10;
+}
+
+/* Navbar : 3 zones (burger | logo | liens) alignées horizontalement */
+.navbar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  width:   100%;
+  padding: clamp(.6rem, 1.8vh, 1rem) clamp(.75rem, 2vw, 1rem);
+}
+
+/* Bouton hamburger : 3 traits qui signalent un menu à ouvrir */
+.navbar__burger {
+  display:        flex;
+  flex-direction: column;
+  gap:            5px;
+  background: none;
+  border:     none;
+  cursor:     pointer;
+  padding:    4px;
+  transition: opacity var(--t-fast);
+}
+.navbar__burger:hover { opacity: .72; }
+
+/* Micro-interaction : la ligne du milieu rétrécit au survol */
+.navbar__burger:hover .navbar__burger-line:nth-child(2) {
+  animation: burger-squeeze .4s ease;
+}
+
+.navbar__burger-line {
+  display:       block;
+  width:         24px;
+  height:        2.5px;
+  border-radius: 2px;
+  background:    var(--clr-white);
+  transition:    background var(--t-fast);
+}
+
+/* Logo avec effet lumineux néon blanc */
+.navbar__logo {
+  font-family:     var(--font-display);
+  font-size:       clamp(.9rem, 4vw, 1rem);
+  font-weight:     800;
+  letter-spacing:  .12em;
+  text-transform:  uppercase;
+  text-decoration: none;
+  color:           var(--clr-white);
+  /* L'effet de halo simule un éclairage néon sur le texte */
+  text-shadow:
+    0 0  8px rgba(255,255,255,.95),
+    0 0 20px rgba(255,255,255,.70),
+    0 0 40px rgba(200,180,255,.40);
+  transition: letter-spacing var(--t-base);
+}
+/* Micro-interaction : l'espacement s'élargit au survol */
+.navbar__logo:hover        { letter-spacing: .18em; }
+.navbar__logo:focus-visible {
+  outline:        2px solid var(--clr-purple);
+  outline-offset: 4px;
+  border-radius:  2px;
+}
+
+/* Liens S'inscrire / Se connecter */
+.navbar__auth {
+  display:     flex;
+  align-items: center;
+  gap:         .3rem;
+  font-size:   clamp(.62rem, 2.8vw, .78rem);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.navbar__link {
+  color:           var(--clr-text);
+  text-decoration: none;
+  transition:      color var(--t-base);
+}
+.navbar__link:hover        { color: var(--clr-purple); }
+.navbar__link:focus-visible {
+  outline:        2px solid var(--clr-purple);
+  outline-offset: 2px;
+  border-radius:  2px;
+}
+/* Séparateur "/" entre les deux liens */
+.navbar__sep { color: var(--clr-muted); }
+
+
+/* == 6. MAIN =================================================
+   Zone centrale qui prend tout l'espace restant (flex:1).
+   Les sections s'empilent et sont centrées verticalement.
+   ============================================================ */
+.main {
+  flex:            1;       /* remplit tout l'espace entre header et footer */
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:     clamp(.9rem, 2.4vh, 1.6rem);
+  padding: clamp(.8rem, 2vh, 1.2rem) clamp(.75rem, 2vw, 1rem);
+}
+
+
+/* == 7. HERO =================================================
+   Carte en verre dépoli (glassmorphism) : l'arrière-plan est
+   flou et semi-transparent, laissant voir l'image derrière.
+   ============================================================ */
+.hero {
+  width: 100%;
+  /* Animation de contenu 1 : apparition en glissant depuis le bas */
+  animation: fade-up .6s ease both .10s;
+}
+
+.hero__card {
+  width:      100%;
+  text-align: center;
+
+  /* Effet verre : fond blanc transparent + flou d'arrière-plan */
+  background:              rgba(255,255,255,.18);
+  backdrop-filter:         blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+
+  border:        1px solid rgba(255,255,255,.28);
+  border-radius: var(--radius-card);
+  padding:       clamp(.9rem, 2.5vh, 1.6rem) clamp(1rem, 4vw, 1.8rem);
+  box-shadow:    var(--shadow-card);
+}
+
+.hero__title {
+  font-family:    var(--font-display);
+  font-size:      clamp(1.1rem, 5vw, 1.4rem);
+  font-weight:    800;
+  line-height:    1.22;
+  letter-spacing: -.01em;
+  color:          var(--clr-white);
+  margin-bottom:  clamp(.5rem, 1.2vh, .85rem);
+}
+
+.hero__desc {
+  font-family: var(--font-body);
+  font-size:   clamp(.84rem, 2.4vw, .94rem);
+  line-height: 1.58;
+  color:       var(--clr-text);
+}
+
+
+/* == 8. CTA ==================================================
+   Section du bouton principal — centré, animé au chargement.
+   ============================================================ */
+.cta {
+  /* Animation de contenu 2 : légèrement décalée après le hero */
+  animation: fade-up .6s ease both .25s;
+}
+
+
+/* == 9. BOUTONS ==============================================
+   .btn          : styles communs à tous les boutons
+   .btn--primary : CTA principal bleu (avec pulsation)
+   .btn--secondary : bouton discret pour l'inscription
+   ============================================================ */
+.btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  text-decoration: none;
+  font-family:     var(--font-ui);
+  font-weight:     700;
+  border:          none;
+  cursor:          pointer;
+  white-space:     nowrap;
+  /* Micro-interaction : légère compression au clic + filtre au survol */
+  transition: filter var(--t-fast), transform var(--t-fast), box-shadow var(--t-base);
+}
+.btn:active { transform: scale(.97); }
+.btn:focus-visible {
+  outline:        3px solid var(--clr-purple);
+  outline-offset: 3px;
+}
+
+/* Bouton principal : dégradé bleu + bordure lumineuse + pulsation */
+.btn--primary {
+  font-size:     1.25rem;
+  padding:       clamp(.65em, 1.5vh, .85em) clamp(1.8em, 8vw, 3em);
+  border-radius: var(--radius-pill);
+  background:    var(--grad-btn-primary);
+  color:         var(--clr-white);
+  position:      relative;
+  /* Effet néon sur le texte */
+  text-shadow:
+    0 0  8px rgba(255,255,255,.95),
+    0 0 20px rgba(255,255,255,.60);
+  /* Animation de contenu 3 : pulsation lumineuse en boucle */
+  animation: pulse-glow 2.5s ease-in-out infinite .8s;
+}
+
+/* Bordure lumineuse simulée via un pseudo-élément derrière le bouton */
+.btn--primary::before {
+  content:       '';
+  position:      absolute;
+  inset:         -1px;
+  border-radius: var(--radius-pill);
+  background:    linear-gradient(to bottom, #82A4F2, #3750CB);
+  z-index:       -1;
+}
+.btn--primary:hover { filter: brightness(1.12); }
+
+/* Bouton secondaire : fond sombre + bordure bleue */
+.btn--secondary {
+  font-size:     clamp(.72rem, 3vw, .85rem);
+  padding:       clamp(.55em, 1.2vh, .72em) clamp(1.2em, 5vw, 2em);
+  border-radius: var(--radius-pill);
+  margin-top:    clamp(.3rem, .8vh, .6rem);
+  background:    var(--grad-btn-second);
+  color:         var(--clr-white);
+  border:        1px solid #002BFF;
+  box-shadow:
+    inset 0  4px 8px rgba(142,161,248,.10),
+    inset 0 -4px 8px rgba(142,161,248,.10);
+}
+.btn--secondary:hover { filter: brightness(1.10); }
+
+
+/* == 10. PROMO ===============================================
+   Carte promo : texte (badge + titre + bouton) à gauche,
+   illustration SVG animée à droite.
+   ============================================================ */
+.promo {
+  width: 100%;
+  /* Animation de contenu — décalée après le CTA */
+  animation: fade-up .6s ease both .40s;
+}
+
+.promo__card {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             clamp(.5rem, 2vw, 1rem);
+
+  background:    var(--grad-promo);
+  border-radius: var(--radius-card);
+  padding:       clamp(.8rem, 2.2vh, 1.4rem) clamp(1rem, 4vw, 1.6rem);
+  box-shadow:    0 12px 40px rgba(6,2,20,.62);
+  position:      relative; /* nécessaire pour le ::before */
+}
+
+/* Bordure dégradée : un cadre lumineux autour de la carte */
+.promo__card::before {
+  content:       '';
+  position:      absolute;
+  inset:         -1px;
+  border-radius: var(--radius-card);
+  background:    linear-gradient(to bottom, #3E1FB4, #8FA2F8);
+  z-index:       -1;
+}
+
+.promo__content {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            .25rem;
+}
+
+/* Badge "NOUVEAU" : petit label en majuscules */
+.promo__badge {
+  font-family:    var(--font-display);
+  font-size:      .75rem;
+  font-weight:    600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color:          var(--clr-muted);
+}
+
+.promo__title {
+  font-family: var(--font-display);
+  font-size:   clamp(.85rem, 3.5vw, .95rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color:       var(--clr-white);
+}
+
+/* Illustration : colonne droite — ne rétrécit pas */
+.promo__illustration { flex-shrink: 0; }
+
+/* SVG avec halo violet + animation de lévitation */
+.promo__neon {
+  width: clamp(72px, 18vw, 110px);
+  filter:
+    drop-shadow(0 0 10px rgba(168,85,247,.82))
+    drop-shadow(0 0 26px rgba(168,85,247,.42));
+  animation: float 3.6s ease-in-out infinite;
+}
+.promo__neon svg { width: 100%; height: auto; display: block; }
+
+
+/* == 11. FOOTER ==============================================
+   Pied de page collé en bas sur toute la largeur.
+   Même logique que le header : dégradé sur .footer directement.
+   ============================================================ */
+.footer {
+  flex-shrink: 0;   /* ne se comprime pas */
+  width:       100%;
+  display:         flex;
+  flex-direction:  row;
+  justify-content: space-between;
+  align-items:     center;
+  flex-wrap:       nowrap;
+
+  padding:    clamp(.45rem, 1.2vh, .75rem) clamp(.75rem, 2vw, 1rem);
+  background: var(--grad-footer);
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+/* Colonne de liens (liens légaux) */
+.footer__nav {
+  display:        flex;
+  flex-direction: column;
+  gap:            clamp(.12rem, .35vh, .28rem);
+  flex:           1 1 110px;
+}
+
+.footer__link {
+  font-size:       clamp(.5rem, 1.7vw, .63rem);
+  font-weight:     400;
+  line-height:     1.5;
+  color:           var(--clr-muted);
+  text-decoration: none;
+  transition:      color var(--t-base);
+}
+.footer__link:hover        { color: var(--clr-text); }
+.footer__link:focus-visible {
+  outline:        1px solid var(--clr-muted);
+  outline-offset: 2px;
+  border-radius:  2px;
+}
+
+/* Icônes des réseaux sociaux */
+.footer__socials {
+  display:     flex;
+  align-items: flex-start;
+  gap:         .4rem;
+  flex-shrink: 0;
+  padding-top: .05rem;
+}
+
+.footer__social {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           clamp(15px, 4.5vw, 24px);
+  height:          clamp(15px, 4.5vw, 24px);
+  color:           var(--clr-muted);
+  text-decoration: none;
+  border-radius:   6px;
+  /* Micro-interaction : couleur + légère élévation au survol */
+  transition: color var(--t-base), transform var(--t-fast);
+}
+.footer__social svg { width: 100%; height: 100%; }
+.footer__social:hover { color: var(--clr-purple); transform: translateY(-2px); }
+.footer__social:focus-visible {
+  outline:        2px solid var(--clr-purple);
+  outline-offset: 2px;
+}
+
+
+/* == 12. MEDIA QUERIES =======================================
+   La base ci-dessus est le rendu mobile (iPhone SE).
+   Ces blocs ajustent pour les écrans plus grands.
+   ============================================================ */
+
+/* Téléphone en paysage (hauteur < 580px) : tout se comprime */
+@media (max-height: 580px) and (min-width: 361px) {
+  .navbar      { padding: .4rem .75rem; }
+  .hero__card  { padding: .6rem 1rem; }
+  .hero__desc  { display: none; } /* masquée pour tenir sur l'écran */
+  .main        { gap: .4rem; padding: .35rem .75rem; }
+  .promo__card { padding: .55rem .75rem; }
+  .footer      { padding: .35rem .75rem; }
+  .footer__link { font-size: .48rem; }
+}
+
+/* Très petit écran (< 360px, iPhone SE 1re gen) : scroll autorisé */
+@media (max-width: 360px) {
+  html, body    { overflow: auto; height: auto; min-height: 100vh; }
+  .hero__title  { font-size: 1.2rem; }
+  .hero__card   { padding: .9rem; }
+  .btn--primary { font-size: .82rem; padding: .7em 1.6em; }
+  .promo__card  { padding: .9rem; }
+  .promo__title { font-size: .9rem; }
+  .promo__neon  { width: 68px; }
+}
+
+/* Tablette & Desktop (>= 768px) : scroll autorisé, tout s'agrandit */
+@media (min-width: 768px) {
+  html, body { overflow: auto; height: auto; min-height: 100vh; }
+
+  /* Navbar plus haute et paddings généreux */
+  .navbar {
+    padding: clamp(.9rem, 2vh, 1.3rem) clamp(2rem, 5vw, 4rem);
+  }
+  .navbar__logo  { font-size: clamp(1.1rem, 2.5vw, 1.4rem); letter-spacing: .16em; }
+  .navbar__auth  { font-size: clamp(.82rem, 1.6vw, 1rem); gap: .5rem; }
+
+  /* Main : plus d'espace entre les blocs */
+  .main {
+    gap:     clamp(1.4rem, 3vh, 2.4rem);
+    padding: clamp(2rem, 4vh, 3.5rem) clamp(2rem, 6vw, 5rem);
+  }
+
+  /* Hero : carte aérée, titre et description plus grands */
+  .hero__card  { padding: clamp(1.8rem, 4vh, 3rem) clamp(2rem, 6vw, 4rem); }
+  .hero__title { font-size: clamp(1.6rem, 4vw, 2.6rem); margin-bottom: clamp(.8rem, 1.8vh, 1.4rem); }
+  .hero__desc  { font-size: clamp(.95rem, 1.8vw, 1.15rem); max-width: 680px; margin: 0 auto; }
+
+  /* Boutons plus imposants */
+  .btn--primary   { font-size: clamp(1.1rem, 2.2vw, 1.5rem); padding: clamp(.8em, 1.8vh, 1.1em) clamp(2.5em, 7vw, 4em); }
+  .btn--secondary { font-size: clamp(.85rem, 1.6vw, 1.05rem); padding: clamp(.65em, 1.4vh, .9em) clamp(1.6em, 4vw, 2.8em); margin-top: clamp(.5rem, 1.2vh, 1rem); }
+
+  /* Carte promo plus grande */
+  .promo__card  { padding: clamp(1.4rem, 3.5vh, 2.4rem) clamp(2rem, 5vw, 3.5rem); gap: clamp(1rem, 3vw, 2rem); }
+  .promo__title { font-size: clamp(1.1rem, 2.5vw, 1.6rem); }
+  .promo__badge { font-size: clamp(.78rem, 1.4vw, .92rem); }
+  .promo__neon  { width: clamp(100px, 18vw, 180px); }
+
+  /* Footer avec plus de respiration */
+  .footer        { padding: clamp(1rem, 2.5vh, 1.8rem) clamp(2rem, 5vw, 4rem); gap: clamp(1rem, 3vw, 2rem); }
+  .footer__link  { font-size: clamp(.68rem, 1.2vw, .85rem); }
+  .footer__social { width: clamp(20px, 3vw, 28px); height: clamp(20px, 3vw, 28px); }
+}
+
+/* Grand Desktop (>= 1280px) : contenu centré avec largeur maximale */
+@media (min-width: 1280px) {
+  /* La navbar est centrée mais le fond du header reste full-width */
+  .navbar { max-width: 1400px; margin: 0 auto; }
+
+  /* Le contenu principal est centré dans une zone de 1100px max */
+  .main { max-width: 1100px; margin: 0 auto; width: 100%; }
+
+  .hero__title { font-size: clamp(2.4rem, 3.5vw, 3rem); }
+  .hero__desc  { font-size: clamp(1.05rem, 1.4vw, 1.25rem); max-width: 780px; }
+  .btn--primary { font-size: clamp(1.3rem, 1.8vw, 1.6rem); }
+  .promo__title { font-size: clamp(1.4rem, 2vw, 1.9rem); }
+  .promo__neon  { width: clamp(140px, 14vw, 200px); }
+
+  /* Le footer aussi est full-width — pas de max-width sur .footer lui-même */
+  .footer__nav    { gap: clamp(.25rem, .5vh, .45rem); }
+  .footer__socials { gap: .6rem; }
+}
