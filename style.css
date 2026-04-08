@@ -133,7 +133,7 @@ body {
   /* Image de fond qui couvre tout l'écran + voile sombre pour la lisibilité */
   background:
     linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.28)),
-    url('/image/FOND\ 2.png') no-repeat center center / cover;
+    url('/image/hero-bg.png') no-repeat center center / cover;
 
   font-family: var(--font-body);
   color:       var(--clr-text);
