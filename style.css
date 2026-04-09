@@ -454,7 +454,7 @@ body {
   display:         flex;
   flex-direction:  row;
   justify-content: space-between;
-  align-items:     center;
+  align-items:     flex-start;  /* icones alignees en haut comme les liens */
   flex-wrap:       nowrap;
 
   padding:    clamp(.45rem, 1.2vh, .75rem) clamp(.75rem, 2vw, 1rem);
@@ -491,7 +491,7 @@ body {
   align-items: flex-start;
   gap:         .4rem;
   flex-shrink: 0;
-  padding-top: .05rem;
+  align-self:  flex-end;  /* icones collees en bas a droite */
 }
 
 .footer__social {
