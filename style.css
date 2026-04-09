@@ -120,12 +120,12 @@
    flexbox en colonne, et se partagent toute la hauteur.
    ============================================================ */
 html {
-  height:   100%;
+  height:   100vh;
   overflow: hidden; /* pas de scroll sur mobile */
 }
 
 body {
-  height:          100%;
+  height:          100vh;
   overflow:        hidden;
   display:         flex;
   flex-direction:  column; /* empile header → main → footer */
