@@ -1,25 +1,87 @@
 /* ============================================================
-   AEGIS — style.css  v4.0
+   AEGIS — style.css  v6.0
    Standard : BEM + SOLID CSS | Mobile-first
+   Polices : locales (fonts/) — zéro appel externe, zéro cookie
    Breakpoints : mobile (base) → 768px → 1280px
    ============================================================
 
    TABLE
-   1.  Reset
-   2.  Variables (Design System)
-   3.  Animations & accessibilité
-   4.  Base (html, body)
-   5.  Header & Navbar
-   6.  Main
-   7.  Hero
-   8.  Bouton (btn--secondary uniquement)
-   9.  Promo
-   10. Footer
-   11. Media Queries
+   1.  @font-face
+   2.  Reset
+   3.  Variables
+   4.  Animations & accessibilité
+   5.  Base (html, body)
+   6.  Header & Navbar
+   7.  Main
+   8.  Hero
+   9.  Bouton principal
+   10. Promo
+   11. Footer
+   12. Media Queries
    ============================================================ */
 
 
-/* == 1. RESET ================================================ */
+/* == 1. @FONT-FACE ===========================================
+   Montserrat = tout le site (titres, logo, nav, badges, footer).
+   Lato = hero__desc + btn--primary uniquement.
+   Tous les fichiers sont locaux — zéro appel externe, zéro cookie.
+   ============================================================ */
+
+/* Montserrat — titres, logo, nav, badges */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('fonts/Montserrat-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style:  normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('fonts/Montserrat-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style:  normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('fonts/Montserrat-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style:  normal;
+  font-display: swap;
+}
+
+/* Lato — description hero + bouton */
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/Lato-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style:  normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/Lato-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style:  normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/Lato-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style:  normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/Lato-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style:  normal;
+  font-display: swap;
+}
+
+
+/* == 2. RESET ================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin:  0;
@@ -27,41 +89,48 @@
 }
 
 
-/* == 2. VARIABLES ============================================
-   Toutes les couleurs, polices et mesures au même endroit.
-   Changer une valeur ici met à jour toute la page.
+/* == 3. VARIABLES ============================================
+   Centralise toutes les couleurs, polices et mesures.
+   Modifier une variable met à jour toute la page.
    ============================================================ */
 :root {
-  --clr-purple:  #a855f7;
-  --clr-white:   #ffffff;
-  --clr-text:    #e2d9f3;
-  --clr-muted:   #9d8fc0;
+  /* Couleurs */
+  --clr-purple: #a855f7;
+  --clr-white:  #ffffff;
+  --clr-text:   #e2d9f3;
+  --clr-muted:  #9d8fc0;
 
-  --grad-header:     linear-gradient(to bottom, #201070, #103EA0);
-  --grad-footer:     linear-gradient(to bottom, rgba(31,18,114,.92), rgba(16,60,158,.92));
-  --grad-promo:      linear-gradient(to bottom, #210E6E, #1041A3);
-  --grad-btn:        linear-gradient(to bottom, #0F2C7D, #1F5BC2);
+  /* Dégradés */
+  --grad-header: linear-gradient(to bottom, #201070, #103EA0);
+  --grad-footer: linear-gradient(to bottom, rgba(31,18,114,.92), rgba(16,60,158,.92));
+  /* Promo : dégradé VERTICAL (#1a0f6e haut → #1e4fd4 bas) */
+  --grad-promo:  linear-gradient(to bottom, #1a0f6e, #1e4fd4);
+  /* Bouton : dégradé vertical demandé */
+  --grad-btn:    linear-gradient(to bottom, #0F2C7D, #1F5BC2);
 
-  --font-body:    'Inter', sans-serif;
-  --font-display: 'Montserrat', sans-serif;
-  --font-ui:      'Lato', sans-serif;
+  /* Polices */
+  --font-display: 'Montserrat', sans-serif; /* tout le site */
+  --font-lato:    'Lato', sans-serif;       /* hero__desc + btn--primary */
 
+  /* Coins arrondis */
   --radius-card: clamp(14px, 3vw, 20px);
   --radius-pill: 99px;
 
+  /* Ombres */
   --shadow-card: 0 16px 48px rgba(8,4,24,.55), inset 0 1px 0 rgba(255,255,255,.15);
   --shadow-btn:  0 6px 28px rgba(80,110,255,.40);
 
+  /* Transitions */
   --t-fast: 0.15s ease;
   --t-base: 0.20s ease;
 }
 
 
-/* == 3. ANIMATIONS & ACCESSIBILITÉ ===========================
-   Animation 1 — fade-up    : blocs apparaissent en glissant
-   Animation 2 — float      : SVG lévite doucement
-   Animation 3 — pulse-glow : bouton pulse pour attirer l'oeil
-   Micro-interaction — burger-squeeze : ligne du milieu rétrécit
+/* == 4. ANIMATIONS & ACCESSIBILITÉ ===========================
+   fade-up      : blocs apparaissent en glissant depuis le bas
+   float        : SVG lévite doucement
+   pulse-glow   : bouton pulse pour attirer l'oeil
+   burger-squeeze : micro-interaction ligne du milieu burger
    ============================================================ */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(20px); }
@@ -94,9 +163,9 @@
 }
 
 
-/* == 4. BASE =================================================
+/* == 5. BASE =================================================
    Mobile : page = exactement l'écran, pas de scroll.
-   Flexbox colonne : header → main → footer se partagent la hauteur.
+   header → main → footer s'empilent et se partagent la hauteur.
    ============================================================ */
 html {
   height:   100%;
@@ -110,14 +179,16 @@ body {
   flex-direction: column;
   background:
     linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.28)),
-    url('/image/hero-bg.png') no-repeat center center / cover;
-  font-family: var(--font-body);
+    url('image/hero-bg.png') no-repeat center center / cover;
+  font-family: var(--font-display);
   color:       var(--clr-text);
 }
 
 
-/* == 5. HEADER & NAVBAR ======================================
-   Dégradé sur .header (100% largeur) pour couvrir tout le haut.
+/* == 6. HEADER & NAVBAR ======================================
+   Dégradé sur .header pour couvrir 100% de la largeur.
+   Mobile  : burger visible, liens nav cachés.
+   Desktop : burger caché, liens nav visibles.
    ============================================================ */
 .header {
   flex-shrink:   0;
@@ -128,7 +199,7 @@ body {
   z-index:       10;
 }
 
-/* burger | logo | liens */
+/* burger | logo | nav desktop | auth */
 .navbar {
   display:         flex;
   align-items:     center;
@@ -137,7 +208,7 @@ body {
   padding:         clamp(.6rem, 1.8vh, 1rem) clamp(.75rem, 2vw, 1rem);
 }
 
-/* 3 traits du menu hamburger */
+/* 3 traits du burger — mobile uniquement */
 .navbar__burger {
   display:        flex;
   flex-direction: column;
@@ -167,7 +238,7 @@ body {
 .navbar__logo {
   font-family:     var(--font-display);
   font-size:       clamp(.9rem, 4vw, 1rem);
-  font-weight:     800;
+  font-weight:     700;
   letter-spacing:  .12em;
   text-transform:  uppercase;
   text-decoration: none;
@@ -186,7 +257,31 @@ body {
   border-radius:  2px;
 }
 
-/* Liens S'inscrire / Se connecter */
+/* Liens nav desktop — cachés sur mobile, affichés à ≥768px */
+.navbar__nav {
+  display:     none;
+  list-style:  none;
+  align-items: center;
+  gap:         clamp(1rem, 2.5vw, 2rem);
+}
+
+.navbar__nav-link {
+  font-family:     var(--font-display);
+  font-size:       clamp(.75rem, 1.4vw, .9rem);
+  font-weight:     600;
+  color:           var(--clr-text);
+  text-decoration: none;
+  letter-spacing:  .04em;
+  transition:      color var(--t-base);
+}
+.navbar__nav-link:hover { color: var(--clr-purple); }
+.navbar__nav-link:focus-visible {
+  outline:        2px solid var(--clr-purple);
+  outline-offset: 2px;
+  border-radius:  2px;
+}
+
+/* S'inscrire / Se connecter — visibles sur tous les écrans */
 .navbar__auth {
   display:     flex;
   align-items: center;
@@ -209,8 +304,8 @@ body {
 .navbar__sep { color: var(--clr-muted); }
 
 
-/* == 6. MAIN =================================================
-   flex:1 = occupe tout l'espace entre header et footer.
+/* == 7. MAIN =================================================
+   flex:1 = remplit tout l'espace entre header et footer.
    ============================================================ */
 .main {
   flex:            1;
@@ -223,7 +318,7 @@ body {
 }
 
 
-/* == 7. HERO =================================================
+/* == 8. HERO =================================================
    Carte glassmorphism : fond flou semi-transparent.
    ============================================================ */
 .hero {
@@ -246,30 +341,33 @@ body {
 .hero__title {
   font-family:    var(--font-display);
   font-size:      clamp(1.1rem, 5vw, 1.4rem);
-  font-weight:    800;
+  font-weight:    700;
   line-height:    1.22;
   letter-spacing: -.01em;
   color:          var(--clr-white);
   margin-bottom:  clamp(.5rem, 1.2vh, .85rem);
 }
 
+/* Lato uniquement pour la description */
 .hero__desc {
+  font-family: var(--font-lato);
   font-size:   clamp(.84rem, 2.4vw, .94rem);
   line-height: 1.58;
   color:       var(--clr-text);
 }
 
 
-/* == 8. BOUTON ===============================================
-   Un seul bouton actif : "Télécharger l'app" dans la promo.
-   Styles communs + modificateur secondaire.
+/* == 9. BOUTON PRINCIPAL =====================================
+   Un seul bouton sur la page : "Télécharger l'app".
+   Lato pour la police, dégradé vertical #0F2C7D → #1F5BC2.
+   Bordure #002BFF + ombre interne #8EA1F8 à 10%.
    ============================================================ */
 .btn {
   display:         inline-flex;
   align-items:     center;
   justify-content: center;
   text-decoration: none;
-  font-family:     var(--font-ui);
+  font-family:     var(--font-lato); /* Lato uniquement */
   font-weight:     700;
   border:          none;
   cursor:          pointer;
@@ -282,21 +380,24 @@ body {
   outline-offset: 3px;
 }
 
-/* Bouton "Télécharger l'app" dans la promo */
-.btn--secondary {
-  font-size:     clamp(.72rem, 3vw, .85rem);
-  padding:       clamp(.55em, 1.2vh, .72em) clamp(1.2em, 5vw, 2em);
+.btn--primary {
+  font-size:     clamp(.85rem, 3.2vw, 1rem);
+  padding:       clamp(.65em, 1.5vh, .9em) clamp(1.6em, 6vw, 2.4em);
   border-radius: var(--radius-pill);
-  background:    var(--grad-btn);
+  background:    var(--grad-btn); /* dégradé vertical #0F2C7D → #1F5BC2 */
   color:         var(--clr-white);
-  border:        1px solid #002BFF;
+  border:        2px solid #8EA1F8;
+  box-shadow:
+    inset 0  4px 8px #8EA1F8, /* ombre interne haut — #8EA1F8 à 10% */
+    inset 0 -4px 8px #8EA1F8; /* ombre interne bas  — #8EA1F8 à 10% */
   animation:     pulse-glow 2.5s ease-in-out infinite .8s;
 }
-.btn--secondary:hover { filter: brightness(1.10); }
+.btn--primary:hover { filter: brightness(1.12); }
 
 
-/* == 9. PROMO ================================================
-   badge en haut — titre en dessous — bouton bien séparé en bas.
+/* == 10. PROMO ===============================================
+   badge en haut — titre — bouton en bas.
+   Dégradé VERTICAL : #1a0f6e haut → #1e4fd4 bas.
    ============================================================ */
 .promo {
   width:     100%;
@@ -319,57 +420,57 @@ body {
 .promo__card::before {
   content:       '';
   position:      absolute;
-  inset:         -1px;
+  inset:         -1.5px;
   border-radius: var(--radius-card);
-  background:    linear-gradient(to bottom, #3E1FB4, #8FA2F8);
+  background:    linear-gradient(to bottom, #5b7fff, #002BFF, #3b1fc8);
   z-index:       -1;
 }
 
-/* Colonne gauche : badge → titre → [espace] → bouton */
+/* Colonne gauche : badge → titre → bouton */
 .promo__content {
   display:        flex;
   flex-direction: column;
   align-items:    flex-start;
 }
 
-/* "NOUVEAU" : petit label en haut */
+/* Badge "NOUVEAU" */
 .promo__badge {
   font-family:    var(--font-display);
-  font-size:      .75rem;
-  font-weight:    600;
-  letter-spacing: .16em;
+  font-size:      .78rem;
+  font-weight:    700;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color:          var(--clr-muted);
-  margin-bottom:  .4rem;
+  color:          var(--clr-white);
+  margin-bottom:  .5rem;
 }
 
 /* Titre de l'offre */
 .promo__title {
-  font-family: var(--font-display);
-  font-size:   clamp(.85rem, 3.5vw, .95rem);
-  font-weight: 700;
-  line-height: 1.25;
-  color:       var(--clr-white);
-  margin-bottom: clamp(.8rem, 2.2vh, 1.2rem); /* espace entre titre et bouton */
+  font-family:   var(--font-display);
+  font-size:     clamp(1rem, 4.5vw, 1.3rem);
+  font-weight:   800;
+  line-height:   1.2;
+  color:         var(--clr-white);
+  margin-bottom: clamp(.8rem, 2.2vh, 1.2rem);
 }
 
-/* Illustration SVG à droite — ne rétrécit pas */
+/* Illustration SVG à droite */
 .promo__illustration { flex-shrink: 0; }
 
-/* SVG avec halo violet + animation de lévitation */
+/* SVG avec halo bleu + animation de lévitation */
 .promo__neon {
-  width:     clamp(72px, 18vw, 110px);
+  width:     clamp(80px, 20vw, 130px);
   filter:
-    drop-shadow(0 0 10px rgba(168,85,247,.82))
-    drop-shadow(0 0 26px rgba(168,85,247,.42));
+    drop-shadow(0 0 12px rgba(0,120,255,.90))
+    drop-shadow(0 0 30px rgba(0,80,255,.50));
   animation: float 3.6s ease-in-out infinite;
 }
 .promo__neon svg { width: 100%; height: auto; display: block; }
 
 
-/* == 10. FOOTER ==============================================
+/* == 11. FOOTER ==============================================
    Dégradé sur .footer pour couvrir 100% de la largeur.
-   Icônes en bas à droite via align-self: flex-end.
+   Icônes collées en bas à droite via align-self: flex-end.
    ============================================================ */
 .footer {
   flex-shrink:     0;
@@ -406,12 +507,12 @@ body {
   border-radius:  2px;
 }
 
-/* Icônes réseaux sociaux — collées en bas à droite */
+/* Icônes réseaux sociaux — bas à droite */
 .footer__socials {
-  display:    flex;
-  gap:        .4rem;
+  display:     flex;
+  gap:         .4rem;
   flex-shrink: 0;
-  align-self: flex-end;
+  align-self:  flex-end;
 }
 
 .footer__social {
@@ -432,12 +533,12 @@ body {
 }
 
 
-/* == 11. MEDIA QUERIES =======================================
+/* == 12. MEDIA QUERIES =======================================
    Base = mobile iPhone SE.
-   On ajuste pour les autres tailles d'écran.
+   Ajustements pour paysage, très petit écran, tablet et desktop.
    ============================================================ */
 
-/* Téléphone en paysage (hauteur < 580px) : tout se comprime */
+/* Téléphone en paysage (hauteur < 580px) */
 @media (max-height: 580px) and (min-width: 361px) {
   .navbar        { padding: .4rem .75rem; }
   .hero__card    { padding: .6rem 1rem; }
@@ -463,40 +564,41 @@ body {
 @media (min-width: 768px) {
   html, body { overflow: auto; height: auto; min-height: 100vh; }
 
-  .navbar       { padding: clamp(.9rem, 2vh, 1.3rem) clamp(2rem, 5vw, 4rem); }
-  .navbar__logo { font-size: clamp(1.1rem, 2.5vw, 1.4rem); letter-spacing: .16em; }
-  .navbar__auth { font-size: clamp(.82rem, 1.6vw, 1rem); gap: .5rem; }
+  /* Burger caché, nav desktop visible */
+  .navbar__burger { display: none; }
+  .navbar__nav    { display: flex; }
+
+  .navbar        { padding: clamp(.9rem, 2vh, 1.3rem) clamp(2rem, 5vw, 4rem); }
+  .navbar__logo  { font-size: clamp(1.1rem, 2.5vw, 1.4rem); letter-spacing: .16em; }
+  .navbar__auth  { font-size: clamp(.82rem, 1.6vw, 1rem); gap: .5rem; }
 
   .main { gap: clamp(1.4rem, 3vh, 2.4rem); padding: clamp(2rem, 4vh, 3.5rem) clamp(2rem, 6vw, 5rem); }
 
-  .hero__card  { padding: clamp(1.8rem, 4vh, 3rem) clamp(2rem, 6vw, 4rem); }
-  .hero__title { font-size: clamp(1.6rem, 4vw, 2.6rem); margin-bottom: clamp(.8rem, 1.8vh, 1.4rem); }
-  .hero__desc  { font-size: clamp(.95rem, 1.8vw, 1.15rem); max-width: 680px; margin: 0 auto; }
+  .hero__card    { padding: clamp(1.8rem, 4vh, 3rem) clamp(2rem, 6vw, 4rem); }
+  .hero__title   { font-size: clamp(1.6rem, 4vw, 2.6rem); margin-bottom: clamp(.8rem, 1.8vh, 1.4rem); }
+  .hero__desc    { font-size: clamp(.95rem, 1.8vw, 1.15rem); max-width: 680px; margin: 0 auto; }
 
-  .btn--secondary {
-    font-size: clamp(.85rem, 1.6vw, 1.05rem);
-    padding:   clamp(.65em, 1.4vh, .9em) clamp(1.6em, 4vw, 2.8em);
-  }
+  .btn--primary  { font-size: clamp(.85rem, 1.6vw, 1.05rem); padding: clamp(.65em, 1.4vh, .9em) clamp(1.6em, 4vw, 2.8em); }
 
-  .promo__card  { padding: clamp(1.4rem, 3.5vh, 2.4rem) clamp(2rem, 5vw, 3.5rem); gap: clamp(1rem, 3vw, 2rem); }
-  .promo__title { font-size: clamp(1.1rem, 2.5vw, 1.6rem); margin-bottom: clamp(1rem, 2.5vh, 1.6rem); }
-  .promo__badge { font-size: clamp(.78rem, 1.4vw, .92rem); }
-  .promo__neon  { width: clamp(100px, 18vw, 180px); }
+  .promo__card   { padding: clamp(1.4rem, 3.5vh, 2.4rem) clamp(2rem, 5vw, 3.5rem); gap: clamp(1rem, 3vw, 2rem); }
+  .promo__title  { font-size: clamp(1.1rem, 2.5vw, 1.6rem); margin-bottom: clamp(1rem, 2.5vh, 1.6rem); }
+  .promo__badge  { font-size: clamp(.78rem, 1.4vw, .92rem); }
+  .promo__neon   { width: clamp(100px, 18vw, 180px); }
 
-  .footer       { padding: clamp(1rem, 2.5vh, 1.8rem) clamp(2rem, 5vw, 4rem); gap: clamp(1rem, 3vw, 2rem); }
-  .footer__link { font-size: clamp(.68rem, 1.2vw, .85rem); }
+  .footer        { padding: clamp(1rem, 2.5vh, 1.8rem) clamp(2rem, 5vw, 4rem); gap: clamp(1rem, 3vw, 2rem); }
+  .footer__link  { font-size: clamp(.68rem, 1.2vw, .85rem); }
   .footer__social { width: clamp(20px, 3vw, 28px); height: clamp(20px, 3vw, 28px); }
 }
 
 /* Grand Desktop (>= 1280px) : contenu centré avec largeur max */
 @media (min-width: 1280px) {
-  .navbar { max-width: 1400px; margin: 0 auto; }
-  .main   { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .navbar        { max-width: 1400px; margin: 0 auto; }
+  .main          { max-width: 1100px; margin: 0 auto; width: 100%; }
 
-  .hero__title  { font-size: clamp(2.4rem, 3.5vw, 3rem); }
-  .hero__desc   { font-size: clamp(1.05rem, 1.4vw, 1.25rem); max-width: 780px; }
-  .promo__title { font-size: clamp(1.4rem, 2vw, 1.9rem); }
-  .promo__neon  { width: clamp(140px, 14vw, 200px); }
+  .hero__title   { font-size: clamp(2.4rem, 3.5vw, 3rem); }
+  .hero__desc    { font-size: clamp(1.05rem, 1.4vw, 1.25rem); max-width: 780px; }
+  .promo__title  { font-size: clamp(1.4rem, 2vw, 1.9rem); }
+  .promo__neon   { width: clamp(140px, 14vw, 200px); }
 
   .footer__nav     { gap: clamp(.25rem, .5vh, .45rem); }
   .footer__socials { gap: .6rem; }
