@@ -97,14 +97,14 @@
   /* Couleurs */
   --clr-purple: #a855f7;
   --clr-white:  #ffffff;
-  --clr-text:   #e2d9f3;
+  --clr-text:   #ffffff;
   --clr-muted:  #9d8fc0;
 
   /* Dégradés */
   --grad-header: linear-gradient(to bottom, #201070, #103EA0);
   --grad-footer: linear-gradient(to bottom, rgba(31,18,114,.92), rgba(16,60,158,.92));
   /* Promo : dégradé VERTICAL (#1a0f6e haut → #1e4fd4 bas) */
-  --grad-promo:  linear-gradient(to bottom, #1a0f6e, #1e4fd4);
+  --grad-promo:  linear-gradient(to bottom, rgba(26,15,110,.78), rgba(30,79,212,.78));
   /* Bouton : dégradé vertical demandé */
   --grad-btn:    linear-gradient(to bottom, #0F2C7D, #1F5BC2);
 
@@ -409,21 +409,14 @@ body {
   align-items:     center;
   justify-content: space-between;
   gap:             clamp(.5rem, 2vw, 1rem);
-  background:      var(--grad-promo);
-  border-radius:   var(--radius-card);
-  padding:         clamp(.8rem, 2.2vh, 1.4rem) clamp(1rem, 4vw, 1.6rem);
-  box-shadow:      0 12px 40px rgba(6,2,20,.62);
-  position:        relative;
-}
-
-/* Cadre lumineux autour de la carte */
-.promo__card::before {
-  content:       '';
-  position:      absolute;
-  inset:         -1.5px;
-  border-radius: var(--radius-card);
-  background:    linear-gradient(to bottom, #5b7fff, #002BFF, #3b1fc8);
-  z-index:       -1;
+  background:              rgba(30,79,212,.40);
+  backdrop-filter:         blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border:                  1.5px solid rgba(91,127,255,.55);
+  border-radius:           var(--radius-card);
+  padding:                 clamp(.8rem, 2.2vh, 1.4rem) clamp(1rem, 4vw, 1.6rem);
+  box-shadow:              0 0 18px rgba(59,31,200,.45), 0 12px 40px rgba(6,2,20,.62);
+  position:                relative;
 }
 
 /* Colonne gauche : badge → titre → bouton */
