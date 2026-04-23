@@ -35,5 +35,3 @@ AEGIS FINAL/
 **Accessibilité** : `aria-label` sur les éléments interactifs, `focus-visible` stylisé, `prefers-reduced-motion` respecté.
 
 ---
-
-Florian Pouleur — 2026
