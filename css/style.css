@@ -1,87 +1,8 @@
-/* ============================================================
-   AEGIS — style.css  v6.0
-   Standard : BEM + SOLID CSS | Mobile-first
-   Polices : locales (fonts/) — zéro appel externe, zéro cookie
-   Breakpoints : mobile (base) → 768px → 1280px
-   ============================================================
-
-   TABLE
-   1.  @font-face
-   2.  Reset
-   3.  Variables
-   4.  Animations & accessibilité
-   5.  Base (html, body)
-   6.  Header & Navbar
-   7.  Main
-   8.  Hero
-   9.  Bouton principal
-   10. Promo
-   11. Footer
-   12. Media Queries
-   ============================================================ */
+/* style.css — Composants & Layout AEGIS */
 
 
-/* == 1. @FONT-FACE ===========================================
-   Montserrat = tout le site (titres, logo, nav, badges, footer).
-   Lato = hero__desc + btn--primary uniquement.
-   Tous les fichiers sont locaux — zéro appel externe, zéro cookie.
-   ============================================================ */
+/* Reset */
 
-/* Montserrat — titres, logo, nav, badges */
-@font-face {
-  font-family: 'Montserrat';
-  src: url('fonts/Montserrat-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style:  normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Montserrat';
-  src: url('fonts/Montserrat-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style:  normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Montserrat';
-  src: url('fonts/Montserrat-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style:  normal;
-  font-display: swap;
-}
-
-/* Lato — description hero + bouton */
-@font-face {
-  font-family: 'Lato';
-  src: url('fonts/Lato-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style:  normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('fonts/Lato-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style:  normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('fonts/Lato-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style:  normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('fonts/Lato-Black.ttf') format('truetype');
-  font-weight: 900;
-  font-style:  normal;
-  font-display: swap;
-}
-
-
-/* == 2. RESET ================================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin:  0;
@@ -89,49 +10,8 @@
 }
 
 
-/* == 3. VARIABLES ============================================
-   Centralise toutes les couleurs, polices et mesures.
-   Modifier une variable met à jour toute la page.
-   ============================================================ */
-:root {
-  /* Couleurs */
-  --clr-purple: #a855f7;
-  --clr-white:  #ffffff;
-  --clr-text:   #ffffff;
-  --clr-muted:  #9d8fc0;
+/* Animations */
 
-  /* Dégradés */
-  --grad-header: linear-gradient(to bottom, #201070, #103EA0);
-  --grad-footer: linear-gradient(to bottom, rgba(31,18,114,.92), rgba(16,60,158,.92));
-  /* Promo : dégradé VERTICAL (#1a0f6e haut → #1e4fd4 bas) */
-  --grad-promo:  linear-gradient(to bottom, rgba(26,15,110,.78), rgba(30,79,212,.78));
-  /* Bouton : dégradé vertical demandé */
-  --grad-btn:    linear-gradient(to bottom, #0F2C7D, #1F5BC2);
-
-  /* Polices */
-  --font-display: 'Montserrat', sans-serif; /* tout le site */
-  --font-lato:    'Lato', sans-serif;       /* hero__desc + btn--primary */
-
-  /* Coins arrondis */
-  --radius-card: clamp(14px, 3vw, 20px);
-  --radius-pill: 99px;
-
-  /* Ombres */
-  --shadow-card: 0 16px 48px rgba(8,4,24,.55), inset 0 1px 0 rgba(255,255,255,.15);
-  --shadow-btn:  0 6px 28px rgba(80,110,255,.40);
-
-  /* Transitions */
-  --t-fast: 0.15s ease;
-  --t-base: 0.20s ease;
-}
-
-
-/* == 4. ANIMATIONS & ACCESSIBILITÉ ===========================
-   fade-up      : blocs apparaissent en glissant depuis le bas
-   float        : SVG lévite doucement
-   pulse-glow   : bouton pulse pour attirer l'oeil
-   burger-squeeze : micro-interaction ligne du milieu burger
-   ============================================================ */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -153,7 +33,6 @@
   100% { transform: scaleX(1); }
 }
 
-/* Désactive les animations si l'utilisateur le demande (WCAG 2.1) */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration:        0.01ms !important;
@@ -163,10 +42,8 @@
 }
 
 
-/* == 5. BASE =================================================
-   Mobile : page = exactement l'écran, pas de scroll.
-   header → main → footer s'empilent et se partagent la hauteur.
-   ============================================================ */
+/* Base */
+
 html {
   height:   100vh;
   overflow: hidden;
@@ -179,17 +56,14 @@ body {
   flex-direction: column;
   background:
     linear-gradient(rgba(0,0,0,.28), rgba(0,0,0,.28)),
-    url('image/hero-bg.png') no-repeat center center / cover;
+    url('../img/hero-bg.png') no-repeat center center / cover;
   font-family: var(--font-display);
   color:       var(--clr-text);
 }
 
 
-/* == 6. HEADER & NAVBAR ======================================
-   Dégradé sur .header pour couvrir 100% de la largeur.
-   Mobile  : burger visible, liens nav cachés.
-   Desktop : burger caché, liens nav visibles.
-   ============================================================ */
+/* Header & Navbar */
+
 .header {
   flex-shrink:   0;
   width:         100%;
@@ -199,7 +73,6 @@ body {
   z-index:       10;
 }
 
-/* burger | logo | nav desktop | auth */
 .navbar {
   display:         flex;
   align-items:     center;
@@ -208,7 +81,6 @@ body {
   padding:         clamp(.6rem, 1.8vh, 1rem) clamp(.75rem, 2vw, 1rem);
 }
 
-/* 3 traits du burger — mobile uniquement */
 .navbar__burger {
   display:        flex;
   flex-direction: column;
@@ -220,8 +92,6 @@ body {
   transition:     opacity var(--t-fast);
 }
 .navbar__burger:hover { opacity: .72; }
-
-/* Micro-interaction : ligne du milieu rétrécit au survol */
 .navbar__burger:hover .navbar__burger-line:nth-child(2) {
   animation: burger-squeeze .4s ease;
 }
@@ -234,7 +104,6 @@ body {
   background:    var(--clr-white);
 }
 
-/* Logo avec effet néon blanc */
 .navbar__logo {
   font-family:     var(--font-display);
   font-size:       clamp(.9rem, 4vw, 1rem);
@@ -249,7 +118,6 @@ body {
     0 0 40px rgba(200,180,255,.40);
   transition: letter-spacing var(--t-base);
 }
-/* Micro-interaction : espacement s'élargit au survol */
 .navbar__logo:hover { letter-spacing: .18em; }
 .navbar__logo:focus-visible {
   outline:        2px solid var(--clr-purple);
@@ -257,7 +125,6 @@ body {
   border-radius:  2px;
 }
 
-/* Liens nav desktop — cachés sur mobile, affichés à ≥768px */
 .navbar__nav {
   display:     none;
   list-style:  none;
@@ -281,7 +148,6 @@ body {
   border-radius:  2px;
 }
 
-/* S'inscrire / Se connecter — visibles sur tous les écrans */
 .navbar__auth {
   display:     flex;
   align-items: center;
@@ -304,9 +170,8 @@ body {
 .navbar__sep { color: var(--clr-muted); }
 
 
-/* == 7. MAIN =================================================
-   flex:1 = remplit tout l'espace entre header et footer.
-   ============================================================ */
+/* Main */
+
 .main {
   flex:            1;
   display:         flex;
@@ -318,9 +183,8 @@ body {
 }
 
 
-/* == 8. HERO =================================================
-   Carte glassmorphism : fond flou semi-transparent.
-   ============================================================ */
+/* Hero */
+
 .hero {
   width:     100%;
   animation: fade-up .6s ease both .10s;
@@ -348,7 +212,6 @@ body {
   margin-bottom:  clamp(.5rem, 1.2vh, .85rem);
 }
 
-/* Lato uniquement pour la description */
 .hero__desc {
   font-family: var(--font-lato);
   font-size:   clamp(.84rem, 2.4vw, .94rem);
@@ -357,17 +220,14 @@ body {
 }
 
 
-/* == 9. BOUTON PRINCIPAL =====================================
-   Un seul bouton sur la page : "Télécharger l'app".
-   Lato pour la police, dégradé vertical #0F2C7D → #1F5BC2.
-   Bordure #002BFF + ombre interne #8EA1F8 à 10%.
-   ============================================================ */
+/* Bouton */
+
 .btn {
   display:         inline-flex;
   align-items:     center;
   justify-content: center;
   text-decoration: none;
-  font-family:     var(--font-lato); /* Lato uniquement */
+  font-family:     var(--font-lato);
   font-weight:     700;
   border:          none;
   cursor:          pointer;
@@ -384,31 +244,29 @@ body {
   font-size:     clamp(.85rem, 3.2vw, 1rem);
   padding:       clamp(.65em, 1.5vh, .9em) clamp(1.6em, 6vw, 2.4em);
   border-radius: var(--radius-pill);
-  background:    var(--grad-btn); /* dégradé vertical #0F2C7D → #1F5BC2 */
+  background:    var(--grad-btn);
   color:         var(--clr-white);
   border:        2px solid #8EA1F8;
   box-shadow:
-    inset 0  4px 8px #8EA1F8, /* ombre interne haut — #8EA1F8 à 10% */
-    inset 0 -4px 8px #8EA1F8; /* ombre interne bas  — #8EA1F8 à 10% */
+    inset 0  4px 8px #8EA1F8,
+    inset 0 -4px 8px #8EA1F8;
   animation:     pulse-glow 2.5s ease-in-out infinite .8s;
 }
 .btn--primary:hover { filter: brightness(1.12); }
 
 
-/* == 10. PROMO ===============================================
-   badge en haut — titre — bouton en bas.
-   Dégradé VERTICAL : #1a0f6e haut → #1e4fd4 bas.
-   ============================================================ */
+/* Promo */
+
 .promo {
   width:     100%;
   animation: fade-up .6s ease both .25s;
 }
 
 .promo__card {
-  display:         flex;
-  align-items:     center;
-  justify-content: space-between;
-  gap:             clamp(.5rem, 2vw, 1rem);
+  display:                 flex;
+  align-items:             center;
+  justify-content:         space-between;
+  gap:                     clamp(.5rem, 2vw, 1rem);
   background:              rgba(30,79,212,.40);
   backdrop-filter:         blur(14px) saturate(130%);
   -webkit-backdrop-filter: blur(14px) saturate(130%);
@@ -419,14 +277,12 @@ body {
   position:                relative;
 }
 
-/* Colonne gauche : badge → titre → bouton */
 .promo__content {
   display:        flex;
   flex-direction: column;
   align-items:    flex-start;
 }
 
-/* Badge "NOUVEAU" */
 .promo__badge {
   font-family:    var(--font-display);
   font-size:      .78rem;
@@ -437,20 +293,17 @@ body {
   margin-bottom:  .5rem;
 }
 
-/* Titre de l'offre */
 .promo__title {
   font-family:   var(--font-display);
   font-size:     clamp(1rem, 4.5vw, 1.3rem);
   font-weight:   800;
   line-height:   1.2;
   color:         var(--clr-white);
-  margin-bottom: clamp(.8rem, 2.2vh, 1.2rem);
+  margin-bottom: clamp(.8rem, 2.2vh, 1.6rem);
 }
 
-/* Illustration SVG à droite */
 .promo__illustration { flex-shrink: 0; }
 
-/* SVG avec halo bleu + animation de lévitation */
 .promo__neon {
   width:     clamp(80px, 20vw, 130px);
   filter:
@@ -461,10 +314,8 @@ body {
 .promo__neon svg { width: 100%; height: auto; display: block; }
 
 
-/* == 11. FOOTER ==============================================
-   Dégradé sur .footer pour couvrir 100% de la largeur.
-   Icônes collées en bas à droite via align-self: flex-end.
-   ============================================================ */
+/* Footer */
+
 .footer {
   flex-shrink:     0;
   width:           100%;
@@ -478,12 +329,18 @@ body {
   border-top:      1px solid rgba(255,255,255,.10);
 }
 
-/* Colonnes de liens légaux */
 .footer__nav {
   display:        flex;
   flex-direction: column;
   gap:            clamp(.12rem, .35vh, .28rem);
   flex:           1 1 110px;
+}
+
+.footer__nav ul {
+  list-style:     none;
+  display:        flex;
+  flex-direction: column;
+  gap:            clamp(.12rem, .35vh, .28rem);
 }
 
 .footer__link {
@@ -500,7 +357,6 @@ body {
   border-radius:  2px;
 }
 
-/* Icônes réseaux sociaux — bas à droite */
 .footer__socials {
   display:     flex;
   gap:         .4rem;
@@ -526,12 +382,8 @@ body {
 }
 
 
-/* == 12. MEDIA QUERIES =======================================
-   Base = mobile iPhone SE.
-   Ajustements pour paysage, très petit écran, tablet et desktop.
-   ============================================================ */
+/* Media queries */
 
-/* Téléphone en paysage (hauteur < 580px) */
 @media (max-height: 580px) and (min-width: 361px) {
   .navbar        { padding: .4rem .75rem; }
   .hero__card    { padding: .6rem 1rem; }
@@ -543,7 +395,6 @@ body {
   .footer__link  { font-size: .48rem; }
 }
 
-/* Très petit écran (< 360px) : scroll autorisé */
 @media (max-width: 360px) {
   html, body     { overflow: auto; height: auto; min-height: 100vh; }
   .hero__title   { font-size: 1.2rem; }
@@ -553,11 +404,9 @@ body {
   .promo__neon   { width: 68px; }
 }
 
-/* Tablet & Desktop (>= 768px) : scroll autorisé, tout s'agrandit */
 @media (min-width: 768px) {
   html, body { overflow: auto; height: auto; min-height: 100vh; }
 
-  /* Burger caché, nav desktop visible */
   .navbar__burger { display: none; }
   .navbar__nav    { display: flex; }
 
@@ -583,7 +432,6 @@ body {
   .footer__social { width: clamp(20px, 3vw, 28px); height: clamp(20px, 3vw, 28px); }
 }
 
-/* Grand Desktop (>= 1280px) : contenu centré avec largeur max */
 @media (min-width: 1280px) {
   .navbar        { max-width: 1400px; margin: 0 auto; }
   .main          { max-width: 1100px; margin: 0 auto; width: 100%; }

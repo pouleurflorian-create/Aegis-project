@@ -1,44 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
-<!--
-  ╔══════════════════════════════════════════════════════════╗
-  ║  AEGIS — La néobanque éthique & transparente             ║
-  ║  Projet Web — CON-2026-EFP                               ║
-  ║  Fichiers : index.html + style.css + fonts/              ║
-  ╚══════════════════════════════════════════════════════════╝
--->
 <head>
   <meta charset="UTF-8" />
-  <!-- Viewport mobile-first : empeche le zoom utilisateur sur mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <!-- Description visible dans Google et les aperçus de liens -->
   <meta name="description" content="AEGIS, la néobanque éthique et transparente pour les créateurs de contenu. Gérez vos revenus, dépenses et collaborations sans effort." />
-  <!-- Couleur de la barre du navigateur sur mobile -->
   <meta name="theme-color" content="#0f0c2e" />
-
   <title>AEGIS — La néobanque éthique</title>
-
-  <!--
-    Polices locales (zéro appel externe, zéro cookie) :
-    Montserrat est chargée depuis le dossier fonts/ (fichiers .ttf uploadés).
-    Inter et Lato sont remplacées par des polices système (system-ui / sans-serif).
-    @font-face déclaré dans style.css.
-  -->
-
-  <!-- Feuille de styles principale -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
 
-  <!-- ══ HEADER ════════════════════════════════════════════════
-       Barre du haut : burger (mobile) | logo | nav desktop | auth.
-       role="banner" identifie cette zone pour les lecteurs d'écran.
-       ════════════════════════════════════════════════════════ -->
   <header class="header" role="banner">
-    <nav class="navbar" aria-label="Navigation principale">
+    <div class="navbar">
 
-      <!-- Burger visible uniquement sur mobile -->
       <button
         class="navbar__burger"
         type="button"
@@ -51,37 +27,32 @@
         <span class="navbar__burger-line" aria-hidden="true"></span>
       </button>
 
-      <!-- Logo : lien vers l'accueil -->
       <a href="/" class="navbar__logo" aria-label="AEGIS — Retour à l'accueil">AEGIS</a>
 
-      <!-- Liens de navigation desktop (cachés sur mobile) -->
-      <ul class="navbar__nav" id="main-menu" role="list">
-        <li role="listitem"><a href="#solutions"   class="navbar__nav-link">Solutions Streamers</a></li>
-        <li role="listitem"><a href="#financement" class="navbar__nav-link">Financement Créatifs</a></li>
-        <li role="listitem"><a href="#ecosysteme"  class="navbar__nav-link">Écosystème Pro</a></li>
-      </ul>
+      <nav aria-label="Navigation principale">
+        <ul class="navbar__nav" id="main-menu" role="list">
+          <li role="listitem"><a href="#solutions"   class="navbar__nav-link">Solutions Streamers</a></li>
+          <li role="listitem"><a href="#financement" class="navbar__nav-link">Financement Créatifs</a></li>
+          <li role="listitem"><a href="#ecosysteme"  class="navbar__nav-link">Écosystème Pro</a></li>
+        </ul>
+      </nav>
 
-      <!-- Boutons d'authentification (visibles sur tous les écrans) -->
       <div class="navbar__auth">
         <a href="#inscription" class="navbar__link">S'inscrire</a>
         <span class="navbar__sep" aria-hidden="true">/</span>
         <a href="#connexion"   class="navbar__link">Se connecter</a>
       </div>
 
-    </nav>
+    </div>
   </header>
 
 
-  <!-- ══ MAIN ══════════════════════════════════════════════════
-       Zone de contenu principale : hero + promo.
-       ════════════════════════════════════════════════════════ -->
   <main class="main" id="contenu-principal">
 
-    <!-- ── Hero : carte glassmorphism avec titre et accroche ── -->
-    <section class="hero" aria-labelledby="hero-titre">
+    <div class="hero">
       <div class="hero__card">
 
-        <h1 class="hero__title" id="hero-titre">
+        <h1 class="hero__title">
           La néobanque éthique<br aria-hidden="true" />&amp; transparente
         </h1>
 
@@ -91,14 +62,12 @@
         </p>
 
       </div>
-    </section>
+    </div>
 
 
-    <!-- ── Promo : offre 20€ + illustration SVG + bouton CTA ── -->
     <section class="promo" aria-labelledby="promo-titre">
       <div class="promo__card">
 
-        <!-- Texte : badge + titre + bouton CTA -->
         <div class="promo__content">
           <span class="promo__badge">NOUVEAU</span>
           <h2 class="promo__title" id="promo-titre">20€ offerts — Mars 2026</h2>
@@ -111,21 +80,16 @@
           </a>
         </div>
 
-        <!-- Illustration SVG décorative (ignorée par les lecteurs d'écran) -->
         <div class="promo__illustration" aria-hidden="true">
           <div class="promo__neon">
             <svg viewBox="0 0 110 100" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-              <!-- Moniteur -->
               <rect x="10" y="8" width="90" height="62" rx="7" fill="url(#monitor-fill)" stroke="url(#monitor-stroke)" stroke-width="2.2"/>
               <rect x="17" y="15" width="76" height="49" rx="4" fill="url(#screen-fill)"/>
-              <!-- Cadenas -->
               <rect x="43" y="32" width="24" height="20" rx="4" fill="none" stroke="#c084fc" stroke-width="2"/>
               <path d="M48 32v-6a7 7 0 0114 0v6" stroke="#c084fc" stroke-width="2" stroke-linecap="round"/>
               <circle cx="55" cy="43" r="3" fill="#c084fc" opacity="0.9"/>
-              <!-- Pied du moniteur -->
               <rect x="49" y="70" width="12" height="9" rx="2" fill="url(#stand-gradient)"/>
               <rect x="38" y="78" width="34" height="5" rx="2.5" fill="url(#stand-gradient)"/>
-              <!-- Halos lumineux -->
               <ellipse cx="55" cy="42" rx="30" ry="28" fill="url(#glow-radial)" opacity="0.3"/>
               <ellipse cx="25" cy="40" rx="12" ry="20" fill="#e879f9" opacity="0.12"/>
               <defs>
@@ -155,27 +119,24 @@
   </main>
 
 
-  <!-- ══ FOOTER ════════════════════════════════════════════════
-       Pied de page : liens légaux RGPD + réseaux sociaux.
-       role="contentinfo" identifie cette zone pour les lecteurs d'écran.
-       ════════════════════════════════════════════════════════ -->
   <footer class="footer" role="contentinfo">
 
-    <!-- Liens légaux (mentions, RGPD, cookies, CGU) -->
     <nav class="footer__nav" aria-label="Liens légaux">
-      <a href="#mentions-legales" class="footer__link">Mentions légales</a>
-      <a href="#confidentialite"  class="footer__link">Politique de confidentialité</a>
-      <a href="#cookies"          class="footer__link">Gestionnaire de cookies</a>
-      <a href="#cgu"              class="footer__link">Conditions Générales d'Utilisation</a>
+      <ul>
+        <li><a href="#mentions-legales" class="footer__link">Mentions légales</a></li>
+        <li><a href="#confidentialite"  class="footer__link">Politique de confidentialité</a></li>
+        <li><a href="#cookies"          class="footer__link">Gestionnaire de cookies</a></li>
+        <li><a href="#cgu"              class="footer__link">Conditions Générales d'Utilisation</a></li>
+      </ul>
     </nav>
 
-    <!-- Liens secondaires -->
     <nav class="footer__nav" aria-label="Liens supplémentaires">
-      <a href="#cgv"     class="footer__link">Conditions Générales de Vente</a>
-      <a href="#contact" class="footer__link">Contact</a>
+      <ul>
+        <li><a href="#cgv"     class="footer__link">Conditions Générales de Vente</a></li>
+        <li><a href="#contact" class="footer__link">Contact</a></li>
+      </ul>
     </nav>
 
-    <!-- Réseaux sociaux -->
     <div class="footer__socials" role="list" aria-label="Nos réseaux sociaux">
 
       <a href="#telegram" class="footer__social" role="listitem" aria-label="Nous suivre sur Telegram">
