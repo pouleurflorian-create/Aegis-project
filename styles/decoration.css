@@ -1,0 +1,9 @@
+/* decoration.css — Ombres & transitions */
+
+:root {
+  --shadow-card: 0 16px 48px rgba(8,4,24,.55), inset 0 1px 0 rgba(255,255,255,.15);
+  --shadow-btn:  0 6px 28px rgba(80,110,255,.40);
+
+  --t-fast: 0.15s ease;
+  --t-base: 0.20s ease;
+}

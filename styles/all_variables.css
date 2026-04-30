@@ -1,0 +1,5 @@
+/* variables.css — Point d'entrée des design tokens AEGIS */
+
+@import './colors.css';
+@import './layout.css';
+@import './decoration.css';

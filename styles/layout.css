@@ -1,4 +1,4 @@
-/* variables.css — Design tokens AEGIS */
+/* layout.css — Typographie & espacements */
 
 @font-face {
   font-family: 'Montserrat';
@@ -50,33 +50,10 @@
   font-display: swap;
 }
 
-
 :root {
-  /* Couleurs */
-  --clr-purple: #a855f7;
-  --clr-white:  #ffffff;
-  --clr-text:   #ffffff;
-  --clr-muted:  #9d8fc0;
-
-  /* Dégradés */
-  --grad-header: linear-gradient(to bottom, #201070, #103EA0);
-  --grad-footer: linear-gradient(to bottom, rgba(31,18,114,.92), rgba(16,60,158,.92));
-  --grad-promo:  linear-gradient(to bottom, rgba(26,15,110,.78), rgba(30,79,212,.78));
-  --grad-btn:    linear-gradient(to bottom, #0F2C7D, #1F5BC2);
-
-  /* Polices */
   --font-display: 'Montserrat', sans-serif;
   --font-lato:    'Lato', sans-serif;
 
-  /* Coins arrondis */
   --radius-card: clamp(14px, 3vw, 20px);
   --radius-pill: 99px;
-
-  /* Ombres */
-  --shadow-card: 0 16px 48px rgba(8,4,24,.55), inset 0 1px 0 rgba(255,255,255,.15);
-  --shadow-btn:  0 6px 28px rgba(80,110,255,.40);
-
-  /* Transitions */
-  --t-fast: 0.15s ease;
-  --t-base: 0.20s ease;
 }
